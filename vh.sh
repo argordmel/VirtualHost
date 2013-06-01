@@ -235,7 +235,7 @@ else
 		else
 			echo " * [INFO] Se creará el virtualhost '$VIRTUALHOST' bajo la IP '$IPv4' en la ruta $RUTA"
 		fi
-		echo -n "Desea continuar? [S/n]:"
+		echo -n "Deseas continuar? [S/n]:"
 		read confirmacion
 		case $confirmacion in
 			n*|N*)
