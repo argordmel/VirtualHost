@@ -1,20 +1,20 @@
 #!/bin/bash
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#     						 									#
-# Script en shell para crear virtualhost en un servidor.		#
-# Nota: Recuerden darle permiso de ejecución.  					#
-#								 								#
-# Ayuda: En una terminal ejecutamos el archivo					#
-#																#
-# $ sudo ./virtualhost.sh --help								#
-# 																#
-# Autor: Iván D. Meléndez               						#
-# Email: argordmel@gmail.com									#
-# Licencia: New BSD License										#
-#																#
-# Este script ha sido testeado en Ubuntu con Apache2.    		#
-# 																#
+#     						 		#
+# Script en shell para crear virtualhost en un servidor.	#
+# Nota: Recuerden darle permiso de ejecución.  			#
+#								#
+# Ayuda: En una terminal ejecutamos el archivo			#
+#								#
+# $ sudo ./virtualhost.sh --help				#
+# 								#
+# Autor: Iván D. Meléndez - 2013           			#
+# Email: argordmel@gmail.com					#
+# Licencia: New BSD License					#
+#								#
+# Este script ha sido testeado en Ubuntu con Apache2.    	#
+# 								#
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 #Ruta por defecto del dominio o subdominio
