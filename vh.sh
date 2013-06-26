@@ -21,6 +21,8 @@
 RUTA="/var/www"
 #Nombre del dominio
 VIRTUALHOST=""
+#Incluir la orden WWW
+WWW=true
 #Dirección IP del server
 IPv4="127.0.0.1"
 #Grupo del la carpeta del dominio
@@ -38,8 +40,7 @@ __EOT
 }
 
 # Funcion para crear un virtualhost
-function newVH() {
-
+function newVH() {	
 	# Verifico que el dominio no se encuentre registrado
 	if grep -q -E "$VIRTUALHOST" /etc/hosts ; then
 		echo " * [ERROR] El dominio $VIRTUALHOST ya se encuentra registrado..."
@@ -78,10 +79,33 @@ function newVH() {
 		echo "$IPv4	$VIRTUALHOST" >> /etc/hosts		
 		# Creo el archivo de virtualhost
 		touch /etc/apache2/sites-available/$VIRTUALHOST
-		echo "
+		if $WWW ; then
+			echo "	
 <VirtualHost *:80>
 	ServerAdmin admin@$VIRTUALHOST
-	ServerName  *.$VIRTUALHOST
+	ServerName  $VIRTUALHOST
+	ServerAlias www.$VIRTUALHOST
+	DocumentRoot $RUTA
+	ErrorLog $RUTA/logs/access.error.log
+	php_value error_log $RUTA/logs/php.error.log
+    php_value session.save_path $RUTA/tmp
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+	<Directory $RUTA/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+</VirtualHost>" > /etc/apache2/sites-available/$VIRTUALHOST
+		else
+			echo "
+<VirtualHost *:80>
+	ServerAdmin admin@$VIRTUALHOST
+	ServerName  $VIRTUALHOST
 	ServerAlias $VIRTUALHOST
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/logs/access.error.log
@@ -99,7 +123,8 @@ function newVH() {
 		allow from all
 	</Directory>
 </VirtualHost>" > /etc/apache2/sites-available/$VIRTUALHOST
-
+		fi
+		
 		# Habilito el virtual host
 		echo " * Habilitando el virtualhost..."
 		a2ensite $VIRTUALHOST 1>/dev/null 2>/dev/null
@@ -213,6 +238,15 @@ else
 			VIRTUALHOST=${virtual%/}
 		fi
 
+		#Pido si incluye la orden www. antes del dominio
+		echo -n "Deseas indicar el alias 'www' al dominio? [S/n]: "
+		read confirmacion
+		case $confirmacion in
+			n*|N*)
+				WWW=false
+			;;
+		esac
+			
 		#Pido la ip del server
 		echo -n "La dirección IPv4 del server es $IPv4? [S/n]: "
 		read confirmacion
