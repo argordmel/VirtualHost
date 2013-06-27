@@ -86,9 +86,9 @@ function newVH() {
 	ServerName  $VIRTUALHOST
 	ServerAlias www.$VIRTUALHOST
 	DocumentRoot $RUTA
-	ErrorLog $RUTA/logs/access.error.log
-	php_value error_log $RUTA/logs/php.error.log
-    php_value session.save_path $RUTA/tmp
+	ErrorLog $RUTA/private/logs/access.error.log
+	php_value error_log $RUTA/private/logs/php.error.log
+    php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -108,9 +108,9 @@ function newVH() {
 	ServerName  $VIRTUALHOST
 	ServerAlias $VIRTUALHOST
 	DocumentRoot $RUTA
-	ErrorLog $RUTA/logs/access.error.log
-	php_value error_log $RUTA/logs/php.error.log
-    php_value session.save_path $RUTA/tmp
+	ErrorLog $RUTA/private/logs/access.error.log
+	php_value error_log $RUTA/private/logs/php.error.log
+    php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
