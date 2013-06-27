@@ -51,27 +51,27 @@ function newVH() {
 		if [ ! -d $RUTA ]; then
 			echo " * Creando diretorios en $RUTA... "
 			mkdir -p $RUTA
-			mkdir -p $RUTA/logs
-			mkdir -p $RUTA/tmp
+			mkdir -p $RUTA/private/logs
+			mkdir -p $RUTA/private/tmp
 			# Asigno los permisos
 			chmod 775 $RUTA
-			chmod 777 $RUTA/logs
-			chmod 777 $RUTA/tmp
+			chmod 777 $RUTA/private/logs
+			chmod 777 $RUTA/private/tmp
 			echo " * Asignando propietario al directorio... "
 			chown $USER:$GRUPO -R $RUTA
 		else
-			if [ ! -d $RUTA/logs ]; then
+			if [ ! -d $RUTA/private/logs ]; then
 				echo " * Creando diretorio para los archivos de sucesos... "
-				mkdir -p $RUTA/logs
+				mkdir -p $RUTA/private/logs
 				# Asigno los permisos
-				chmod 777 $RUTA/logs
+				chmod 777 $RUTA/private/logs
 				chown $USER:$GRUPO -R $RUTA
 			fi
-			if [ ! -d $RUTA/tmp ]; then
+			if [ ! -d $RUTA/private/tmp ]; then
 				echo " * Creando diretorio para los archivos de sesiones... "
-				mkdir -p $RUTA/tmp
+				mkdir -p $RUTA/private/tmp
 				# Asigno los permisos
-				chmod 777 $RUTA/tmp
+				chmod 777 $RUTA/private/tmp
 				chown $USER:$GRUPO -R $RUTA
 			fi
 		fi
