@@ -13,7 +13,7 @@
 # Email: argordmel@gmail.com					#
 # Licencia: New BSD License					#
 #								#
-# Este script ha sido testeado en Ubuntu con Apache2.    	#
+# Este script ha sido testeado en Ubuntu con Apache 2.2    	#
 # 								#
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -42,7 +42,7 @@ __EOT
 # Funcion para crear un virtualhost
 function newVH() {	
 	# Verifico que el dominio no se encuentre registrado
-	if grep -q -E "$VIRTUALHOST" /etc/hosts ; then
+	if grep -cE "^$VIRTUALHOST" /etc/hosts ; then
 		echo " * [ERROR] El dominio $VIRTUALHOST ya se encuentra registrado..."
 		echo " * Utilice --delete $VIRTUALHOST si desea eliminar el virtualhost..."
 	else 
@@ -153,7 +153,7 @@ function newVH() {
 function delVH() {
 	
 	# Verifico que el virtualhost se encuentre registrado
-	if grep -q -E "$VIRTUALHOST" /etc/hosts ; then
+	if grep -cE "^$VIRTUALHOST" /etc/hosts ; then
 		echo -n "Estas seguro de eliminar el virtualhost: $VIRTUALHOST? [S/n]: "
 		read continue
 		case $continue in
