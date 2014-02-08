@@ -1,32 +1,36 @@
 #!/bin/bash
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#     						 		#
-# Script en shell para crear virtualhost en un servidor.	#
-# Nota: Recuerden darle permiso de ejecución.  			#
-#								#
-# Ayuda: En una terminal ejecutamos el archivo			#
-#								#
-# $ sudo ./virtualhost.sh --help				#
-# 								#
-# Autor: Iván D. Meléndez - 2013           			#
-# Email: argordmel@gmail.com					#
-# Licencia: New BSD License					#
-#								#
-# Este script ha sido testeado en Ubuntu con Apache 2.2    	#
-# 								#
+#     						 									#
+# Script en shell para crear virtualhost en un servidor.		#
+# Nota: Recuerden darle permiso de ejecución.  					#
+#																#
+# Ayuda: En una terminal ejecutamos el archivo					#
+#																#
+# $ sudo ./virtualhost.sh --help								#
+# 																#
+# Autor: Iván D. Meléndez - 2013           						#
+# Email: argordmel@gmail.com									#
+# Licencia: New BSD License										#
+#																#
+# Este script ha sido testeado en Ubuntu con Apache 2.2 y 2.4   #
+# 																#
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 #Ruta por defecto del dominio o subdominio
 RUTA="/var/www"
 #Nombre del dominio
 VIRTUALHOST=""
+#Nombre del archivo
+FILENAME=""
 #Incluir la orden WWW
 WWW=true
 #Dirección IP del server
 IPv4="127.0.0.1"
 #Grupo del la carpeta del dominio
 GRUPO="www-data"
+#Versión de apache
+APACHE='';
 
 #Funcion que imprime el uso del script
 function helpVH() {
@@ -75,10 +79,12 @@ function newVH() {
 				chown $USER:$GRUPO -R $RUTA
 			fi
 		fi
-		# Creo la entrada en /etc/hosts/
+		# Creo la entrada en /etc/hosts/		
 		echo "$IPv4	$VIRTUALHOST" >> /etc/hosts		
-		# Creo el archivo de virtualhost
-		touch /etc/apache2/sites-available/$VIRTUALHOST
+
+		# Creo el archivo de virtualhost		
+		touch /etc/apache2/sites-available/$FILENAME
+
 		if $WWW ; then
 			echo "	
 <VirtualHost *:80>
@@ -100,7 +106,7 @@ function newVH() {
 		Order allow,deny
 		allow from all
 	</Directory>
-</VirtualHost>" > /etc/apache2/sites-available/$VIRTUALHOST
+</VirtualHost>" > /etc/apache2/sites-available/$FILENAME
 		else
 			echo "
 <VirtualHost *:80>
@@ -122,7 +128,7 @@ function newVH() {
 		Order allow,deny
 		allow from all
 	</Directory>
-</VirtualHost>" > /etc/apache2/sites-available/$VIRTUALHOST
+</VirtualHost>" > /etc/apache2/sites-available/$FILENAME
 		fi
 		
 		# Habilito el virtual host
@@ -153,7 +159,7 @@ function newVH() {
 function delVH() {
 	
 	# Verifico que el virtualhost se encuentre registrado
-	if grep -cE "^$VIRTUALHOST" /etc/hosts ; then
+	if grep -cE "$VIRTUALHOST" /etc/hosts ; then
 		echo -n "Estas seguro de eliminar el virtualhost: $VIRTUALHOST? [S/n]: "
 		read continue
 		case $continue in
@@ -165,7 +171,7 @@ function delVH() {
 		a2dissite $VIRTUALHOST 1>/dev/null 2>/dev/null
 		# Elimino la configuracion del virtualhost
 		echo " * Eliminando archivos de configuración..."
-		rm /etc/apache2/sites-available/$VIRTUALHOST
+		rm /etc/apache2/sites-available/$FILENAME
 		# Elimino el registro del dominio local
 		echo " * Removiendo el virtualhost $VIRTUALHOST de /etc/hosts..."
 		sed  "/$VIRTUALHOST/ d" -i /etc/hosts
@@ -201,6 +207,15 @@ fi
 if [ -z $1 ]; then
 	helpVH
 else
+	#Determino la versión de apache
+	LIST=`apache2 -version`
+	SOURCE="Apache/2.4"
+	if echo "$LIST" | grep -i "$SOURCE"; then
+		APACHE="2.4";
+	else 
+		APACHE="2.2";
+	fi
+	
 	#Verifico si ejecuta la ayuda
 	if [ $1 = "--help" ]; then
 		helpVH
@@ -236,6 +251,11 @@ else
 			exit 1
 		else
 			VIRTUALHOST=${virtual%/}
+			if [ $APACHE = "2.4" ]; then
+				FILENAME="$VIRTUALHOST.conf";
+			else
+				FILENAME="$VIRTUALHOST";
+			fi
 		fi
 
 		#Pido si incluye la orden www. antes del dominio
@@ -289,6 +309,11 @@ else
 			exit 1
 		else
 			VIRTUALHOST=${virtual%/}
+			if [ $APACHE = "2.4" ]; then
+				FILENAME="$VIRTUALHOST.conf";
+			else
+				FILENAME="$VIRTUALHOST";
+			fi
 			delVH
 		fi
 	else
