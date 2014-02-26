@@ -282,6 +282,11 @@ else
 				fi
 			;;
 		esac
+		
+		#Valido la carpeta del vhost
+		if [ $RUTA = "/var/www" ]; then
+			RUTA="/var/www/$VIRTUALHOST"
+		fi
 
 		#Confirmo la información digitada
 		if [ $IPv4 = "127.0.0.1" ]; then
