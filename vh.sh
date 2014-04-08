@@ -84,9 +84,53 @@ function newVH() {
 
 		# Creo el archivo de virtualhost		
 		touch /etc/apache2/sites-available/$FILENAME
+		if [ $APACHE = "2.4" ]; then
+			if $WWW ; then
+				echo "	
+<VirtualHost *:80>
+	ServerAdmin admin@$VIRTUALHOST
+	ServerName  $VIRTUALHOST
+	ServerAlias www.$VIRTUALHOST
+	DocumentRoot $RUTA
+	ErrorLog $RUTA/private/logs/access.error.log
+	php_value error_log $RUTA/private/logs/php.error.log
+    php_value session.save_path $RUTA/private/tmp
 
-		if $WWW ; then
-			echo "	
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+	<Directory $RUTA/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Require all granted
+	</Directory>
+</VirtualHost>" > /etc/apache2/sites-available/$FILENAME
+			else
+				echo "
+<VirtualHost *:80>
+	ServerAdmin admin@$VIRTUALHOST
+	ServerName  $VIRTUALHOST
+	ServerAlias $VIRTUALHOST
+	DocumentRoot $RUTA
+	ErrorLog $RUTA/private/logs/access.error.log
+	php_value error_log $RUTA/private/logs/php.error.log
+    php_value session.save_path $RUTA/private/tmp
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+	<Directory $RUTA/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Require all granted
+	</Directory>
+</VirtualHost>" > /etc/apache2/sites-available/$FILENAME
+			fi						
+		else 				
+			if $WWW ; then
+				echo "	
 <VirtualHost *:80>
 	ServerAdmin admin@$VIRTUALHOST
 	ServerName  $VIRTUALHOST
@@ -130,7 +174,8 @@ function newVH() {
 	</Directory>
 </VirtualHost>" > /etc/apache2/sites-available/$FILENAME
 		fi
-		
+		fi
+			
 		# Habilito el virtual host
 		echo " * Habilitando el virtualhost..."
 		a2ensite $VIRTUALHOST 1>/dev/null 2>/dev/null
