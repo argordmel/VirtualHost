@@ -46,4 +46,9 @@ Uso
         
         Ingresa el nombre del virtualhost a eliminar: prueba1.com
         Estas seguro de eliminar el virtualhost: prueba1.com? [S/n]: (enter)
+
+
+Nota
+----------
+El script creará una carpeta dentro del virtual host llamada *private* la cual no se debe eliminar
   
