@@ -94,7 +94,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    php_value session.save_path $RUTA/private/tmp
+    	#php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -115,7 +115,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    php_value session.save_path $RUTA/private/tmp
+    	#php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -138,7 +138,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    php_value session.save_path $RUTA/private/tmp
+    	#php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -160,7 +160,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    php_value session.save_path $RUTA/private/tmp
+    	#php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
