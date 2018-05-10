@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#     															#
-# Script en shell para crear virtualhost en un servidor.		#
-# Nota: Recuerden darle permiso de ejecución.  					#
-#																#
-# Ayuda: En una terminal ejecutamos el archivo					#
-#																#
-# $ sudo ./virtualhost.sh --help								#
-# 																#
-# Autor: Iván D. Meléndez	           							#
-# Email: argordmel@gmail.com									#
-# Licencia: New BSD License										#
-#																#
+#                                                               #
+# Script en shell para crear virtualhost en un servidor.        #
+# Nota: Recuerden darle permiso de ejecución.                   #
+#                                                               #
+# Ayuda: En una terminal ejecutamos el archivo                  #
+#                                                               #
+# $ sudo ./virtualhost.sh --help                                #
+#                                                               #
+# Autor: Iván D. Meléndez                                       #
+# Email: argordmel@gmail.com                                    #
+# Licencia: New BSD License                                     #
+#                                                               #
 # Este script ha sido testeado en Ubuntu con Apache 2.2 y 2.4   #
 # 																#
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -44,12 +44,12 @@ __EOT
 }
 
 # Funcion para crear un virtualhost
-function newVH() {	
+function newVH() {
 	# Verifico que el dominio no se encuentre registrado
 	if grep -cE "^$VIRTUALHOST" /etc/hosts ; then
 		echo " * [ERROR] El dominio $VIRTUALHOST ya se encuentra registrado..."
 		echo " * Utilice --delete $VIRTUALHOST si desea eliminar el virtualhost..."
-	else 
+	else
 		echo " * Configurando el virtualhost '$VIRTUALHOST' en la ruta $RUTA"
 		# Creo el directorio si no se encuentra
 		if [ ! -d $RUTA ]; then
@@ -79,14 +79,14 @@ function newVH() {
 				chown $USER:$GRUPO -R $RUTA
 			fi
 		fi
-		# Creo la entrada en /etc/hosts/		
-		echo "$IPv4	$VIRTUALHOST" >> /etc/hosts		
+		# Creo la entrada en /etc/hosts/
+		echo "$IPv4	$VIRTUALHOST" >> /etc/hosts
 
-		# Creo el archivo de virtualhost		
+		# Creo el archivo de virtualhost
 		touch /etc/apache2/sites-available/$FILENAME
 		if [ $APACHE = "2.4" ]; then
 			if $WWW ; then
-				echo "	
+				echo "
 <VirtualHost *:80>
 	ServerAdmin admin@$VIRTUALHOST
 	ServerName  $VIRTUALHOST
@@ -127,10 +127,10 @@ function newVH() {
 		Require all granted
 	</Directory>
 </VirtualHost>" > /etc/apache2/sites-available/$FILENAME
-			fi						
-		else 				
+			fi
+		else
 			if $WWW ; then
-				echo "	
+				echo "
 <VirtualHost *:80>
 	ServerAdmin admin@$VIRTUALHOST
 	ServerName  $VIRTUALHOST
@@ -175,11 +175,11 @@ function newVH() {
 </VirtualHost>" > /etc/apache2/sites-available/$FILENAME
 		fi
 		fi
-			
+
 		# Habilito el virtual host
 		echo " * Habilitando el virtualhost..."
 		a2ensite $VIRTUALHOST 1>/dev/null 2>/dev/null
-	 
+
 		# Reinicio el servidor
 		echo " * Reiniciando el servidor apache..."
 		/etc/init.d/apache2 reload 1>/dev/null 2>/dev/null
@@ -205,7 +205,7 @@ function newVH() {
 
 # Funcion para eliminar virtualhost
 function delVH() {
-	
+
 	# Verifico que el virtualhost se encuentre registrado
 	if grep -cE "$VIRTUALHOST" /etc/hosts ; then
 		echo -n "Estas seguro de eliminar el virtualhost: $VIRTUALHOST? [S/n]: "
@@ -260,10 +260,10 @@ else
 	SOURCE="Apache/2.4"
 	if echo "$LIST" | grep -i "$SOURCE"; then
 		APACHE="2.4";
-	else 
+	else
 		APACHE="2.2";
 	fi
-	
+
 	#Verifico si ejecuta la ayuda
 	if [ $1 = "--help" ]; then
 		helpVH
@@ -290,7 +290,7 @@ else
 				;;
 			esac
 		fi
-	
+
 		#Pido el nombre del virtualhost y lo registro en la variable
 		echo -n "Ingresa el nombre del virtualhost (ej: domain.com): "
 		read virtual
@@ -314,7 +314,7 @@ else
 				WWW=false
 			;;
 		esac
-			
+
 		#Pido la ip del server
 		echo -n "La dirección IPv4 del server es $IPv4? [S/n]: "
 		read confirmacion
@@ -330,7 +330,7 @@ else
 				fi
 			;;
 		esac
-		
+
 		#Valido la carpeta del vhost
 		if [ $RUTA = "/var/www" ]; then
 			RUTA="/var/www/$VIRTUALHOST"
@@ -349,10 +349,10 @@ else
 				exit 1
 			;;
 		esac
-		
+
 		#Ejecuto la función para crear el virtualhost
 		newVH
-		
+
 	elif [ $1 = "--delete" ]; then
 		#Pido el nombre del virtualhost y lo almaceno en la variable
 		echo -n "Ingresa el nombre del virtualhost a eliminar: "
