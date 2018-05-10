@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#     						 									#
+#     															#
 # Script en shell para crear virtualhost en un servidor.		#
 # Nota: Recuerden darle permiso de ejecución.  					#
 #																#
@@ -9,7 +9,7 @@
 #																#
 # $ sudo ./virtualhost.sh --help								#
 # 																#
-# Autor: Iván D. Meléndez - 2013           						#
+# Autor: Iván D. Meléndez	           							#
 # Email: argordmel@gmail.com									#
 # Licencia: New BSD License										#
 #																#
@@ -94,7 +94,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    	#php_value session.save_path $RUTA/private/tmp
+    #php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -115,7 +115,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    	#php_value session.save_path $RUTA/private/tmp
+    #php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -138,7 +138,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    	#php_value session.save_path $RUTA/private/tmp
+    #php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -160,7 +160,7 @@ function newVH() {
 	DocumentRoot $RUTA
 	ErrorLog $RUTA/private/logs/access.error.log
 	php_value error_log $RUTA/private/logs/php.error.log
-    	#php_value session.save_path $RUTA/private/tmp
+    #php_value session.save_path $RUTA/private/tmp
 
 	<Directory />
 		Options FollowSymLinks
@@ -195,6 +195,9 @@ function newVH() {
 </html>" > $RUTA/index.html
 		# Asigno los permisos
 		chmod 775 $RUTA/index.html
+		touch $RUTA/private/index.html
+		touch $RUTA/private/tmp/index.html
+		touch $RUTA/private/logs/index.html
 		echo " * Virtualhost creado correctamente. $VIRTUALHOST/index.html!"
 	fi
 	exit 1;
